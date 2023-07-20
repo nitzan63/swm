@@ -12,6 +12,13 @@ function App() {
   // [x] - add <textarea> for input message template
   // [x] - show preview of how message would look merged, using <pre></pre>
 
+  // HW
+  // [ ]  - refactor the "replace" info one function
+  // [ ]  - add button to remove someone from list (tip, use array filter)
+  // bonus:
+  // [ ] - look into a javascript object called "localStorage" - and save the data between reloads
+  // [ ] - bonus 2 - deploy to github pages https://vitejs.dev/guide/static-deploy.html
+
   function add() {
     if (name.length < 2) alert("Wrong Name Input!");
     else if (phone.length < 5) alert("Wrong Phone input!") 
@@ -43,7 +50,7 @@ function App() {
         Your Message:
         {messageTemplate}
       </pre>
-      {arr.map((item) => {
+      {arr.map((item,index) => {
         const specificMessage = messageTemplate.replace(/!!!/g, item.name);
         return (
           <div key={item.phone}>
@@ -52,7 +59,7 @@ function App() {
                 specificMessage
               )}`}
             >
-              {" "}
+              {(index+1)+ ". "}
               {item.name}{" "}
             </a>
           </div>
