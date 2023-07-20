@@ -18,6 +18,7 @@ function App() {
   // bonus:
   // [ ] - look into a javascript object called "localStorage" - and save the data between reloads
   // [ ] - bonus 2 - deploy to github pages https://vitejs.dev/guide/static-deploy.html
+  // [ ] - new project as you wish - deploy to github
 
   function add() {
     if (name.length < 2) alert("Wrong Name Input!");
