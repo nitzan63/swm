@@ -13,7 +13,7 @@ function App() {
   // [x] - show preview of how message would look merged, using <pre></pre>
 
   // HW
-  // [ ]  - refactor the "replace" info one function
+  // [x]   - refactor the "replace" into one function
   // [ ]  - add button to remove someone from list (tip, use array filter)
   // bonus:
   // [ ] - look into a javascript object called "localStorage" - and save the data between reloads
@@ -31,7 +31,7 @@ function App() {
     }
   }
 
-  const messageTemplate = message.replace(/!!!/g, (arr[0]?.name || name) || 'ניצן' );
+  const messageTemplate = message.replace(/!!!/g, (name||arr[0]?.name ) || 'ניצן' );
   const fixedPhone = "972" + (phone[0] == "0" ? phone.slice(1) : phone);
   return (
     <>
@@ -52,12 +52,11 @@ function App() {
         {messageTemplate}
       </pre>
       {arr.map((item,index) => {
-        const specificMessage = messageTemplate.replace(/!!!/g, item.name);
         return (
           <div key={item.phone}>
             <a
               href={`whatsapp://send?phone=${item.phone}&text=${encodeURI(
-                specificMessage
+                messageTemplate
               )}`}
             >
               {(index+1)+ ". "}
