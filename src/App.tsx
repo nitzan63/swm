@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [name, setName] = useState("");
@@ -16,11 +16,40 @@ function App() {
 
   // HW
   // [x]   - refactor the "replace" into one function
-  // [ ]  - add button to remove someone from list (tip, use array filter)
+  // [x]  - add button to remove someone from list (tip, use array filter)
   // bonus:
   // [ ] - look into a javascript object called "localStorage" - and save the data between reloads
+  // it works partially - it saves any of the objects in the array but the last one. tried to fix it.
   // [ ] - bonus 2 - deploy to github pages https://vitejs.dev/guide/static-deploy.html
   // [ ] - new project as you wish - deploy to github
+
+  // useEffect(() => {
+  //   savedDataToLocalStorage(arr);
+  // }, [arr]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     savedDataToLocalStorage(arr); 
+  //   };
+  // }, [arr]); 
+  
+  useEffect ( () => {
+    const savedData = getDataFromLocalStorage();
+    if (savedData)
+    setArr(savedData)
+  }, [])
+
+
+
+  function savedDataToLocalStorage(data: any){ // added the ':any'
+    const dataJSON = JSON.stringify(data)
+    localStorage.setItem('myDataKey', dataJSON)
+  }
+
+  function getDataFromLocalStorage(){
+    const dataJSON = localStorage.getItem('myDataKey')
+    return JSON.parse(dataJSON!) // added the '!'
+  }
 
   function add() {
     if (name.length < 2) alert("Wrong Name Input!");
@@ -31,7 +60,10 @@ function App() {
       setName("");
       setPhone("");
     }
+
+    savedDataToLocalStorage(arr)
   }
+
 
   function remove(){
     const foundIndex = arr.findIndex((person)=> person.name === nameToDelete)
@@ -43,7 +75,10 @@ function App() {
       alert("שם לא קיים ברשימה")
       setNameToDelete("")
     }
+    savedDataToLocalStorage(arr)
   }
+
+
 
   const messageTemplate = message.replace(/!!!/g, (name||arr[0]?.name ) || 'ניצן' );
   const fixedPhone = "972" + (phone[0] == "0" ? phone.slice(1) : phone);
