@@ -5,6 +5,8 @@ function App() {
   const [phone, setPhone] = useState("");
   const [arr, setArr] = useState<({name:string,phone:string})[]>([]);
   const [message, setMessage] = useState("שלום !!! אתה מוזמן לבר מצווה של איתמר");
+  const [nameToDelete, setNameToDelete] = useState("")
+
   // [x] - input phone
   // [x] - clear text after add
   // [x] - only add a valid name - give errro with alert
@@ -31,25 +33,37 @@ function App() {
     }
   }
 
+  function remove(){
+    const foundIndex = arr.findIndex((person)=> person.name === nameToDelete)
+    if (foundIndex != -1){
+    setArr((prevArr)=> prevArr.filter((person)=>person.name != nameToDelete))
+    setNameToDelete("")
+    }
+    else {
+      alert("שם לא קיים ברשימה")
+      setNameToDelete("")
+    }
+  }
+
   const messageTemplate = message.replace(/!!!/g, (name||arr[0]?.name ) || 'ניצן' );
   const fixedPhone = "972" + (phone[0] == "0" ? phone.slice(1) : phone);
   return (
     <>
       <h1 onClick={() => alert("123")}>Hello {1 + 9}</h1>
       <div>
-        <input value={name} onChange={(e) => setName(e.target.value)} /> Name
+        <input value={name} onChange={(e) => setName(e.target.value)} /> שם
       </div>
       <div>
-        <input value={phone} onChange={(e) => setPhone(e.target.value)} /> Phone
+        <input value={phone} onChange={(e) => setPhone(e.target.value)} /> טלפון
       </div>
       <button onClick={add}>Add</button>
       <hr/>
       <div>
-        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} /> Message
+        <textarea value={message} onChange={(e)=> setMessage(e.target.value)} /> הודעה
       </div>
       <pre>
-        Your Message:
-        {messageTemplate}
+        ההודעה שלך: 
+        {" " + messageTemplate}
       </pre>
       {arr.map((item,index) => {
         return (
@@ -65,6 +79,12 @@ function App() {
           </div>
         );
       })}
+      <hr/>
+      <div>Enter name from the list to delete: </div>
+      <div>
+        <input value={nameToDelete} onChange={(e) => setNameToDelete(e.target.value)} />
+      </div>
+      <button onClick={remove}>Remove</button>
     </>
   );
 }
